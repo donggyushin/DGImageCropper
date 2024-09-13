@@ -9,7 +9,6 @@ public struct DGImageCropper: View {
     
     @StateObject var model: ImageCropperModel
     
-    @State private var height: CGFloat = 1000
     @State private var isShowingGrid: Bool = false
     
     public init(model: ImageCropperModel, edgeColor: Color = .white) {
@@ -18,48 +17,44 @@ public struct DGImageCropper: View {
     }
     
     public var body: some View {
-        GeometryReader { geo in
-            Image(uiImage: model.image)
-                .resizable()
-                .scaledToFit()
-                .background(ViewGeometry())
-                .onPreferenceChange(ViewSizeKey.self) { size in
-                    self.height = size.height
-                    model.configure(size: size)
+        Image(uiImage: model.image)
+            .resizable()
+            .scaledToFit()
+            .background(ViewGeometry())
+            .onPreferenceChange(ViewSizeKey.self) { size in
+                model.configure(size: size)
+            }
+            .overlay {
+                Path { path in
+                    let rect = CGRect(
+                        x: model.rect.minX + 3,
+                        y: model.rect.minY + 3,
+                        width: model.rect.width - 6,
+                        height: model.rect.height - 6
+                    )
+                    path.addRect(rect)
                 }
-                .overlay {
-                    Path { path in
-                        let rect = CGRect(
-                            x: model.rect.minX + 3,
-                            y: model.rect.minY + 3,
-                            width: model.rect.width - 6,
-                            height: model.rect.height - 6
-                        )
-                        path.addRect(rect)
-                    }
-                    .stroke(.white, lineWidth: 1)
-                    .contentShape(Rectangle())
-                    .gesture(gridDragGesture())
-                }
-                .overlay {
-                    Grid()
-                        .frame(
-                            width: max(model.rect.width - 6, 0),
-                            height: max(model.rect.height - 6, 0)
-                        )
-                        .position(
-                            x: model.rect.midX - 3,
-                            y: model.rect.midY - 3
-                        )
-                        .padding(3)
-                        .opacity(isShowingGrid ? 1 : 0)
-                        .animation(.default, value: isShowingGrid)
-                }
-                .overlay {
-                    edges
-                }
-        }
-        .frame(height: height)
+                .stroke(.white, lineWidth: 1)
+                .contentShape(Rectangle())
+                .gesture(gridDragGesture())
+            }
+            .overlay {
+                Grid()
+                    .frame(
+                        width: max(model.rect.width - 6, 0),
+                        height: max(model.rect.height - 6, 0)
+                    )
+                    .position(
+                        x: model.rect.midX - 3,
+                        y: model.rect.midY - 3
+                    )
+                    .padding(3)
+                    .opacity(isShowingGrid ? 1 : 0)
+                    .animation(.default, value: isShowingGrid)
+            }
+            .overlay {
+                edges
+            }
     }
     
     var edges: some View {
@@ -131,11 +126,17 @@ public struct DGImageCropper: View {
 }
 
 #Preview {
-    let model: ImageCropperModel = .init(image: .init(contentsOfFile: Bundle.module.path(forResource: "sample_image", ofType: "png")!)!)
+    let model: ImageCropperModel = .init(image: .init(contentsOfFile: Bundle.module.path(forResource: "sample_image3", ofType: "png")!)!)
     
     return DGImageCropper(
         model: model,
         edgeColor: .green
     )
-    .preferredColorScheme(.dark)
+    .overlay(alignment: .top) {
+        VStack {
+            Button("turn") {
+                model.rotate(degree: 90)
+            }
+        }
+    }
 }
