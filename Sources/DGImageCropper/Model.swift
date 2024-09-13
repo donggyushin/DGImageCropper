@@ -25,7 +25,7 @@ public final class ImageCropperModel: ObservableObject {
         case bottomTrailingPoint
     }
     
-    let image: UIImage
+    @Published var image: UIImage
     
     @Published var topLeadingPoint: CGPoint = .zero
     @Published var topTrailingPoint: CGPoint = .zero
@@ -35,6 +35,8 @@ public final class ImageCropperModel: ObservableObject {
     @Published var rect: CGRect = .zero
     
     @Published var ratio: CropRatio = .square
+    
+    public var degree: Double = 0
     
     private var previousTopLeadingPoint: CGPoint = .zero
     private var previousTopTrailingPoint: CGPoint = .zero
@@ -49,6 +51,13 @@ public final class ImageCropperModel: ObservableObject {
     public init(image: UIImage) {
         self.image = image
         bind()
+    }
+    
+    public func rotate(degree: Double) {
+        if let rotated = image.rotated(by: degree) {
+            self.degree = degree
+            self.image = rotated
+        }
     }
     
     public func crop() -> UIImage? {
