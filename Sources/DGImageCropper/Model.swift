@@ -57,9 +57,7 @@ public final class ImageCropperModel: ObservableObject {
             let topTrailingPoint = CGPoint(x: previousTopTrailingPoint.x, y: previousTopTrailingPoint.y + value)
             let bottomLeadingPoint = CGPoint(x: previousBottomLeadingPoint.x + value, y: previousBottomLeadingPoint.y)
             
-            guard topLeadingPoint.x >= 0 && topLeadingPoint.y >= 0 else { return }
-            
-            if CheckDraggableUseCase(point1: topLeadingPoint, point2: bottomTrailingPoint, minDiff: minDiff).execute() {
+            if CheckDraggableUseCase(point1: topLeadingPoint, point2: bottomTrailingPoint, minDiff: minDiff, originRect: originRect).execute() {
                 self.topLeadingPoint = topLeadingPoint
                 self.topTrailingPoint = topTrailingPoint
                 self.bottomLeadingPoint = bottomLeadingPoint

@@ -12,8 +12,10 @@ import Testing
 
 @Test
 func checkDraggableUseCase() async throws {
-    #expect(CheckDraggableUseCase(point1: .zero, point2: .init(x: 4, y: 4), minDiff: 2).execute() == true)
-    #expect(CheckDraggableUseCase(point1: .zero, point2: .init(x: 4, y: 4), minDiff: 3).execute() == true)
-    #expect(CheckDraggableUseCase(point1: .zero, point2: .init(x: 4, y: 4), minDiff: 4).execute() == false)
-    #expect(CheckDraggableUseCase(point1: .zero, point2: .init(x: 4, y: 4), minDiff: 5).execute() == false)
+    #expect(CheckDraggableUseCase(point1: .zero, point2: .init(x: 4, y: 4), minDiff: 2, originRect: .init(x: 0, y: 0, width: 4, height: 4)).execute() == true)
+    #expect(CheckDraggableUseCase(point1: .zero, point2: .init(x: 4, y: 4), minDiff: 3, originRect: .init(x: 0, y: 0, width: 4, height: 4)).execute() == true)
+    #expect(CheckDraggableUseCase(point1: .zero, point2: .init(x: 4, y: 4), minDiff: 4, originRect: .init(x: 0, y: 0, width: 4, height: 4)).execute() == false)
+    #expect(CheckDraggableUseCase(point1: .zero, point2: .init(x: 4, y: 4), minDiff: 5, originRect: .init(x: 0, y: 0, width: 4, height: 4)).execute() == false)
+    
+    #expect(CheckDraggableUseCase(point1: .zero, point2: .init(x: 5, y: 5), minDiff: 3, originRect: .init(x: 0, y: 0, width: 4, height: 4)).execute() == false)
 }
