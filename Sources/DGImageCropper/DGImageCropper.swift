@@ -12,7 +12,11 @@ public struct DGImageCropper: View {
     }
     
     public var body: some View {
-        Text("Text")
+        GeometryReader { geo in
+            Image(uiImage: uiImage)
+                .resizable()
+                .scaledToFit()
+        }
     }
 }
 
