@@ -11,6 +11,7 @@ public struct DGImageCropper: View {
     @StateObject var model: ImageCropperModel
     
     @State private var height: CGFloat = 1000
+    @State private var isShowingGrid: Bool = false
     
     public init(uiImage: UIImage, edgeColor: Color = .white) {
         self.uiImage = uiImage
@@ -45,7 +46,8 @@ public struct DGImageCropper: View {
                             y: model.rect.midY
                         )
                         .padding(3)
-                        .opacity(model.isShowingGrid ? 1 : 0)
+                        .opacity(isShowingGrid ? 1 : 0)
+                        .animation(.default, value: isShowingGrid)
                 }
                 .overlay {
                     edges
@@ -92,9 +94,13 @@ public struct DGImageCropper: View {
     func dragGesture(edge: ImageCropperModel.EdgePosition) -> some Gesture {
         DragGesture()
             .onChanged { value in
+                if isShowingGrid == false {
+                    isShowingGrid = true
+                }
                 model.dragEdge(size: value.translation, edge: edge)
             }
             .onEnded { _ in
+                isShowingGrid = false
                 model.updatePreviousRef()
             }
     }

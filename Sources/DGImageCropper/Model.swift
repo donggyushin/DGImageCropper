@@ -25,8 +25,6 @@ public final class ImageCropperModel: ObservableObject {
     
     @Published var rect: CGRect = .zero
     
-    @Published var isShowingGrid: Bool = false
-    
     private var previousTopLeadingPoint: CGPoint = .zero
     private var previousTopTrailingPoint: CGPoint = .zero
     private var previousBottomLeadingPoint: CGPoint = .zero
