@@ -7,6 +7,7 @@
 
 import Combine
 import Foundation
+import UIKit
 
 @MainActor
 public final class ImageCropperModel: ObservableObject {
@@ -17,6 +18,8 @@ public final class ImageCropperModel: ObservableObject {
         case bottomLeadingPoint
         case bottomTrailingPoint
     }
+    
+    let image: UIImage
     
     @Published var topLeadingPoint: CGPoint = .zero
     @Published var topTrailingPoint: CGPoint = .zero
@@ -34,8 +37,13 @@ public final class ImageCropperModel: ObservableObject {
     
     private let minDiff: CGFloat = 100
     
-    init() {
+    public init(image: UIImage) {
+        self.image = image
         bind()
+    }
+    
+    public func cropImage() -> UIImage? {
+        crop(image: image, imageSizeInScreen: originRect.size, rect: rect)
     }
     
     func configure(size: CGSize) {

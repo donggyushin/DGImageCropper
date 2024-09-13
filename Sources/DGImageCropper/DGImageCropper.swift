@@ -5,7 +5,6 @@ import SwiftUI
 
 public struct DGImageCropper: View {
     
-    let uiImage: UIImage
     let edgeColor: Color
     
     @StateObject var model: ImageCropperModel
@@ -13,15 +12,14 @@ public struct DGImageCropper: View {
     @State private var height: CGFloat = 1000
     @State private var isShowingGrid: Bool = false
     
-    public init(uiImage: UIImage, edgeColor: Color = .white, model: ImageCropperModel) {
-        self.uiImage = uiImage
-        self.edgeColor = edgeColor
+    public init(model: ImageCropperModel, edgeColor: Color = .white) {
         _model = .init(wrappedValue: model)
+        self.edgeColor = edgeColor
     }
     
     public var body: some View {
         GeometryReader { geo in
-            Image(uiImage: uiImage)
+            Image(uiImage: model.image)
                 .resizable()
                 .scaledToFit()
                 .background(ViewGeometry())
@@ -127,13 +125,9 @@ public struct DGImageCropper: View {
 }
 
 #Preview {
-    
-    let url = Bundle.module.path(forResource: "sample_image", ofType: "png")!
-    
     return DGImageCropper(
-        uiImage: .init(contentsOfFile: url)!,
-        edgeColor: Color(red: 0.03, green: 0.93, blue: 0.13),
-        model: .init()
+        model: .init(image: .init(contentsOfFile: Bundle.module.path(forResource: "sample_image", ofType: "png")!)!),
+        edgeColor: .green
     )
-        .preferredColorScheme(.dark)
+    .preferredColorScheme(.dark)
 }
