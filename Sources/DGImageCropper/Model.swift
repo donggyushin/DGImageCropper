@@ -32,6 +32,8 @@ public final class ImageCropperModel: ObservableObject {
     private var previousBottomLeadingPoint: CGPoint = .zero
     private var previousBottomTrailingPoint: CGPoint = .zero
     
+    private var originRect: CGRect = .zero
+    
     init() {
         bind()
     }
@@ -43,6 +45,8 @@ public final class ImageCropperModel: ObservableObject {
         bottomTrailingPoint = .init(x: size.width, y: size.height)
         
         updatePreviousRef()
+        
+        originRect = GenerateRectUseCase(point1: topLeadingPoint, point2: bottomTrailingPoint).execute()
     }
     
     func dragEdge(size: CGSize, edge: EdgePosition) {
