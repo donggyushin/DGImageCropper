@@ -30,7 +30,7 @@ public struct DGImageCropper: View {
                     Path { path in
                         path.addRect(model.rect)
                     }
-                    .stroke(lineWidth: 2)
+                    .stroke(.white, lineWidth: 1)
                 }
         }
         .frame(height: height)
