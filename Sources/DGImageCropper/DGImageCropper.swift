@@ -41,6 +41,13 @@ public struct DGImageCropper: View {
                                 x: model.topLeadingPoint.x + 10,
                                 y: model.topLeadingPoint.y + 10
                             )
+                        
+                        Edge(color: edgeColor)
+                            .rotationEffect(.degrees(90))
+                            .position(
+                                x: model.topTrailingPoint.x - 10,
+                                y: model.topTrailingPoint.y + 10
+                            )
                     }
                 }
         }
