@@ -46,12 +46,19 @@ public final class ImageCropperModel: ObservableObject {
     }
     
     func dragEdge(size: CGSize, edge: EdgePosition) {
-        let value = (size.width + size.height) / 2
         
         if edge == .topLeadingPoint {
+            let value = (size.width + size.height) / 2
             topLeadingPoint = CGPoint(x: previousTopLeadingPoint.x + value, y: previousTopLeadingPoint.y + value)
             topTrailingPoint = CGPoint(x: previousTopTrailingPoint.x, y: previousTopTrailingPoint.y + value)
             bottomLeadingPoint = CGPoint(x: previousBottomLeadingPoint.x + value, y: previousBottomLeadingPoint.y)
+        }
+        
+        if edge == .topTrailingPoint {
+            let value = (size.width - size.height) / 2
+            topTrailingPoint = CGPoint(x: previousTopTrailingPoint.x + value, y: previousTopTrailingPoint.y - value)
+            topLeadingPoint = CGPoint(x: previousTopLeadingPoint.x, y: previousTopLeadingPoint.y - value)
+            bottomTrailingPoint = CGPoint(x: previousBottomTrailingPoint.x + value, y: previousBottomTrailingPoint.y)
         }
     }
     
