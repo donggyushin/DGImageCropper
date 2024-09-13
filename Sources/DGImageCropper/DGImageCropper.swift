@@ -100,7 +100,9 @@ public struct DGImageCropper: View {
                 model.dragEdge(size: value.translation, edge: edge)
             }
             .onEnded { _ in
-                isShowingGrid = false
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    isShowingGrid = false
+                }
                 model.updatePreviousRef()
             }
     }
