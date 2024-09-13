@@ -7,10 +7,13 @@ public struct DGImageCropper: View {
     
     let uiImage: UIImage
     
+    @StateObject var model: ImageCropperModel
+    
     @State private var height: CGFloat = 1000
     
     public init(uiImage: UIImage) {
         self.uiImage = uiImage
+        _model = .init(wrappedValue: .init())
     }
     
     public var body: some View {
@@ -19,8 +22,15 @@ public struct DGImageCropper: View {
                 .resizable()
                 .scaledToFit()
                 .background(ViewGeometry())
-                .onPreferenceChange(ViewSizeKey.self) { height in
-                    self.height = height.height
+                .onPreferenceChange(ViewSizeKey.self) { size in
+                    self.height = size.height
+                    model.configure(size: size)
+                }
+                .overlay {
+                    Path { path in
+                        path.addRect(model.rect)
+                    }
+                    .stroke(lineWidth: 2)
                 }
         }
         .frame(height: height)
