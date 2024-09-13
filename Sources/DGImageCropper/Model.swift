@@ -149,7 +149,14 @@ public final class ImageCropperModel: ObservableObject {
                 self.topTrailingPoint = topTrailingPoint
             } else if size.width >= 0 && size.height >= 0 {
                 let bottomTrailingPoint = CGPoint(x: min(previousBottomTrailingPoint.x + x, originRect.maxX), y: min(previousBottomTrailingPoint.y + y, originRect.maxY))
+                let bottomLeadingPoint = CGPoint(x: bottomTrailingPoint.x - previousRect.width, y: bottomTrailingPoint.y)
+                let topTrailingPoint = CGPoint(x: bottomTrailingPoint.x, y: bottomTrailingPoint.y - previousRect.height)
+                let topLeadingPoint = CGPoint(x: bottomTrailingPoint.x - previousRect.width, y: bottomTrailingPoint.y - previousRect.height)
+                
                 self.bottomTrailingPoint = bottomTrailingPoint
+                self.bottomLeadingPoint = bottomLeadingPoint
+                self.topTrailingPoint = topTrailingPoint
+                self.topLeadingPoint = topLeadingPoint
             }
         }
     }
