@@ -117,12 +117,6 @@ public final class ImageCropperModel: ObservableObject {
             self.bottomTrailingPoint = bottomTrailingPoint
         } else {
             // Edge case
-            let previousRect = CGRect(
-                x: Int(previousRect.minX) - 3,
-                y: Int(previousRect.minY) - 3,
-                width: Int(previousRect.width) + 6,
-                height: Int(previousRect.height) + 6
-            )
             
             if size.width <= 0 && size.height <= 0 {
                 let topLeadingPoint = CGPoint(x: max(previousTopLeadingPoint.x + x, 0), y: max(previousTopLeadingPoint.y + y, 0))
@@ -209,13 +203,6 @@ public final class ImageCropperModel: ObservableObject {
     private func bind() {
         $topLeadingPoint
             .combineLatest($bottomTrailingPoint)
-            .map({ point1, point2 in
-                var point1 = point1
-                var point2 = point2
-                point1 = .init(x: point1.x + 3, y: point1.y + 3)
-                point2 = .init(x: point2.x - 3, y: point2.y - 3)
-                return (point1, point2)
-            })
             .map({ GenerateRectUseCase(point1: $0.0, point2: $0.1) })
             .map({ $0.execute() })
             .assign(to: &$rect)

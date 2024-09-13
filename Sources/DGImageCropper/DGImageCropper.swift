@@ -29,7 +29,13 @@ public struct DGImageCropper: View {
                 }
                 .overlay {
                     Path { path in
-                        path.addRect(model.rect)
+                        let rect = CGRect(
+                            x: model.rect.minX + 3,
+                            y: model.rect.minY + 3,
+                            width: model.rect.width - 6,
+                            height: model.rect.height - 6
+                        )
+                        path.addRect(rect)
                     }
                     .stroke(.white, lineWidth: 1)
                     .contentShape(Rectangle())
@@ -38,8 +44,8 @@ public struct DGImageCropper: View {
                 .overlay {
                     Grid()
                         .frame(
-                            width: model.rect.width,
-                            height: model.rect.height
+                            width: model.rect.width - 6,
+                            height: model.rect.height - 6
                         )
                         .position(
                             x: model.rect.midX - 3,
