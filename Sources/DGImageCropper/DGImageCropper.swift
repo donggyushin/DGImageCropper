@@ -34,10 +34,10 @@ public struct DGImageCropper: View {
                         
                         Path { path in
                             let rect = CGRect(
-                                x: model.rect.minX + 3,
-                                y: model.rect.minY + 3,
-                                width: model.rect.width - 6,
-                                height: model.rect.height - 6
+                                x: model.rect.minX,
+                                y: model.rect.minY,
+                                width: model.rect.width,
+                                height: model.rect.height
                             )
                             path.addRect(rect)
                         }
@@ -149,7 +149,7 @@ public struct DGImageCropper: View {
 }
 
 #Preview {
-    let model: ImageCropperModel = .init(image: .init(contentsOfFile: Bundle.module.path(forResource: "sample_image2", ofType: "png")!)!)
+    let model: ImageCropperModel = .init(image: .init(contentsOfFile: Bundle.module.path(forResource: "sample_image", ofType: "png")!)!)
     
     return DGImageCropper(
         model: model,
