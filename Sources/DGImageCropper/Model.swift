@@ -34,6 +34,8 @@ public final class ImageCropperModel: ObservableObject {
     
     private var originRect: CGRect = .zero
     
+    private let minDiff: CGFloat = 100
+    
     init() {
         bind()
     }
@@ -53,9 +55,18 @@ public final class ImageCropperModel: ObservableObject {
         switch edge {
         case .topLeadingPoint:
             let value = (size.width + size.height) / 2
-            topLeadingPoint = CGPoint(x: previousTopLeadingPoint.x + value, y: previousTopLeadingPoint.y + value)
-            topTrailingPoint = CGPoint(x: previousTopTrailingPoint.x, y: previousTopTrailingPoint.y + value)
-            bottomLeadingPoint = CGPoint(x: previousBottomLeadingPoint.x + value, y: previousBottomLeadingPoint.y)
+            let topLeadingPoint = CGPoint(x: previousTopLeadingPoint.x + value, y: previousTopLeadingPoint.y + value)
+            let topTrailingPoint = CGPoint(x: previousTopTrailingPoint.x, y: previousTopTrailingPoint.y + value)
+            let bottomLeadingPoint = CGPoint(x: previousBottomLeadingPoint.x + value, y: previousBottomLeadingPoint.y)
+            
+            guard topLeadingPoint.x >= 0 && topLeadingPoint.y >= 0 else { return }
+            
+            if CheckDraggableUseCase(point1: topLeadingPoint, point2: bottomTrailingPoint, minDiff: minDiff).execute() {
+                self.topLeadingPoint = topLeadingPoint
+                self.topTrailingPoint = topTrailingPoint
+                self.bottomLeadingPoint = bottomLeadingPoint
+            }
+            
         case .topTrailingPoint:
             let value = (size.width - size.height) / 2
             topTrailingPoint = CGPoint(x: previousTopTrailingPoint.x + value, y: previousTopTrailingPoint.y - value)
