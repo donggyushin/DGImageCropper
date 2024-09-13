@@ -60,6 +60,13 @@ public final class ImageCropperModel: ObservableObject {
             topLeadingPoint = CGPoint(x: previousTopLeadingPoint.x, y: previousTopLeadingPoint.y - value)
             bottomTrailingPoint = CGPoint(x: previousBottomTrailingPoint.x + value, y: previousBottomTrailingPoint.y)
         }
+        
+        if edge == .bottomLeadingPoint {
+            let value = (size.width - size.height) / 2
+            bottomLeadingPoint = CGPoint(x: previousBottomLeadingPoint.x + value, y: previousBottomLeadingPoint.y - value)
+            topLeadingPoint = CGPoint(x: previousTopLeadingPoint.x + value, y: previousTopLeadingPoint.y)
+            bottomTrailingPoint = CGPoint(x: previousBottomTrailingPoint.x, y: previousBottomTrailingPoint.y - value)
+        }
     }
     
     func updatePreviousRef() {

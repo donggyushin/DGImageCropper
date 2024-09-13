@@ -77,6 +77,7 @@ public struct DGImageCropper: View {
                     x: model.bottomLeadingPoint.x + 10,
                     y: model.bottomLeadingPoint.y - 10
                 )
+                .gesture(dragGesture(edge: .bottomLeadingPoint))
             
             Edge(color: edgeColor)
                 .rotationEffect(.degrees(180))
@@ -84,6 +85,7 @@ public struct DGImageCropper: View {
                     x: model.bottomTrailingPoint.x - 10,
                     y: model.bottomTrailingPoint.y - 10
                 )
+                .gesture(dragGesture(edge: .bottomTrailingPoint))
         }
     }
     
