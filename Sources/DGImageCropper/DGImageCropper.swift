@@ -35,6 +35,18 @@ public struct DGImageCropper: View {
                     .stroke(.white, lineWidth: 1)
                 }
                 .overlay {
+                    Grid()
+                        .frame(
+                            width: model.rect.width,
+                            height: model.rect.height
+                        )
+                        .position(
+                            x: model.rect.midX,
+                            y: model.rect.midY
+                        )
+                        .padding(3)
+                }
+                .overlay {
                     edges
                 }
         }
