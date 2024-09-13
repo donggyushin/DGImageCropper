@@ -9,7 +9,7 @@ import Foundation
 import CoreGraphics
 import UIKit
 
-func crop(image: UIImage, imageSizeInScreen: CGSize, rect: CGRect) -> UIImage? {
+func cropImage(image: UIImage, imageSizeInScreen: CGSize, rect: CGRect) -> UIImage? {
     let ratio = image.size.width / imageSizeInScreen.width
     
     let rect: CGRect = .init(

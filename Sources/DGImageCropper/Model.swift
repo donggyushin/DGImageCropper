@@ -42,8 +42,8 @@ public final class ImageCropperModel: ObservableObject {
         bind()
     }
     
-    public func cropImage() -> UIImage? {
-        crop(image: image, imageSizeInScreen: originRect.size, rect: rect)
+    public func crop() -> UIImage? {
+        cropImage(image: image, imageSizeInScreen: originRect.size, rect: rect)
     }
     
     func configure(size: CGSize) {
