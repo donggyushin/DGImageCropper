@@ -40,6 +40,7 @@ public final class ImageCropperModel: ObservableObject {
     private var previousTopTrailingPoint: CGPoint = .zero
     private var previousBottomLeadingPoint: CGPoint = .zero
     private var previousBottomTrailingPoint: CGPoint = .zero
+    private var previousRect: CGRect = .zero
     
     private var originRect: CGRect = .zero
     
@@ -101,10 +102,10 @@ public final class ImageCropperModel: ObservableObject {
     }
     
     func move(size: CGSize) {
+        let x = size.width
+        let y = size.height
+        
         if CheckMoveableRectUseCase(originRect: originRect, rect: GenerateRectUseCase(point1: previousTopLeadingPoint, point2: previousBottomTrailingPoint).execute(), move: size).execute() {
-            let x = size.width
-            let y = size.height
-            
             let topLeadingPoint = CGPoint(x: previousTopLeadingPoint.x + x, y: previousTopLeadingPoint.y + y)
             let topTrailingPoint = CGPoint(x: previousTopTrailingPoint.x + x, y: previousTopTrailingPoint.y + y)
             let bottomLeadingPoint = CGPoint(x: previousBottomLeadingPoint.x + x, y: previousBottomLeadingPoint.y + y)
@@ -114,6 +115,20 @@ public final class ImageCropperModel: ObservableObject {
             self.topTrailingPoint = topTrailingPoint
             self.bottomLeadingPoint = bottomLeadingPoint
             self.bottomTrailingPoint = bottomTrailingPoint
+        } else {
+            // Edge case
+            
+            if size.width <= 0 && size.height <= 0 {
+                let topLeadingPoint = CGPoint(x: max(previousTopLeadingPoint.x + x, 0), y: max(previousTopLeadingPoint.y + y, 0))
+                let topTrailingPoint = CGPoint(x: topLeadingPoint.x + previousRect.width, y: topLeadingPoint.y)
+                let bottomLeadingPoint = CGPoint(x: topLeadingPoint.x, y: topLeadingPoint.y + previousRect.height)
+                let bottomTrailingPoint = CGPoint(x: topLeadingPoint.x + previousRect.width, y: topLeadingPoint.y + previousRect.height)
+                
+                self.topLeadingPoint = topLeadingPoint
+                self.topTrailingPoint = topTrailingPoint
+                self.bottomLeadingPoint = bottomLeadingPoint
+                self.bottomTrailingPoint = bottomTrailingPoint
+            }
         }
     }
     
@@ -172,6 +187,7 @@ public final class ImageCropperModel: ObservableObject {
         previousTopTrailingPoint = topTrailingPoint
         previousBottomLeadingPoint = bottomLeadingPoint
         previousBottomTrailingPoint = bottomTrailingPoint
+        previousRect = rect
     }
     
     private func bind() {
