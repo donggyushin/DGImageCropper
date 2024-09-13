@@ -45,6 +45,7 @@ public struct DGImageCropper: View {
                             y: model.rect.midY
                         )
                         .padding(3)
+                        .opacity(model.isShowingGrid ? 1 : 0)
                 }
                 .overlay {
                     edges
