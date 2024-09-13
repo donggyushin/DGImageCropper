@@ -25,6 +25,7 @@ struct Edge: View {
                 .fill(color)
                 .frame(width: 2)
         }
+        .contentShape(Rectangle())
     }
 }
 
