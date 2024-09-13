@@ -1,4 +1,5 @@
 import Testing
+import Foundation
 @testable import DGImageCropper
 
 @Test func generateRectUseCase() async throws {
@@ -18,4 +19,12 @@ func checkDraggableUseCase() async throws {
     #expect(CheckDraggableUseCase(point1: .zero, point2: .init(x: 4, y: 4), minDiff: 5, originRect: .init(x: 0, y: 0, width: 4, height: 4)).execute() == false)
     
     #expect(CheckDraggableUseCase(point1: .zero, point2: .init(x: 5, y: 5), minDiff: 3, originRect: .init(x: 0, y: 0, width: 4, height: 4)).execute() == false)
+}
+
+@Test
+func checkMoveableRectUseCase() {
+    let originRect: CGRect = .init(origin: .zero, size: .init(width: 10, height: 10))
+    #expect(CheckMoveableRectUseCase(originRect: originRect, rect: .init(x: 0, y: 0, width: 1, height: 1), move: .zero).execute() == true)
+    #expect(CheckMoveableRectUseCase(originRect: originRect, rect: .init(x: 8, y: 1, width: 1, height: 1), move: .zero).execute() == true)
+    #expect(CheckMoveableRectUseCase(originRect: originRect, rect: .init(x: -1, y: 9, width: 1, height: 1), move: .zero).execute() == false)
 }
