@@ -34,8 +34,8 @@ public final class ImageCropperModel: ObservableObject {
             .map({ point1, point2 in
                 var point1 = point1
                 var point2 = point2
-                point1 = .init(x: point1.x + 2, y: point1.y + 2)
-                point2 = .init(x: point2.x - 2, y: point2.y - 2)
+                point1 = .init(x: point1.x + 3, y: point1.y + 3)
+                point2 = .init(x: point2.x - 3, y: point2.y - 3)
                 return (point1, point2)
             })
             .map({ GenerateRectUseCase(point1: $0.0, point2: $0.1) })

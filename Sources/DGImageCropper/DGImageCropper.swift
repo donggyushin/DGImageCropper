@@ -6,13 +6,15 @@ import SwiftUI
 public struct DGImageCropper: View {
     
     let uiImage: UIImage
+    let edgeColor: Color
     
     @StateObject var model: ImageCropperModel
     
     @State private var height: CGFloat = 1000
     
-    public init(uiImage: UIImage) {
+    public init(uiImage: UIImage, edgeColor: Color = .white) {
         self.uiImage = uiImage
+        self.edgeColor = edgeColor
         _model = .init(wrappedValue: .init())
     }
     
@@ -32,6 +34,15 @@ public struct DGImageCropper: View {
                     }
                     .stroke(.white, lineWidth: 1)
                 }
+                .overlay {
+                    ZStack {
+                        Edge(color: edgeColor)
+                            .position(
+                                x: model.topLeadingPoint.x + 10,
+                                y: model.topLeadingPoint.y + 10
+                            )
+                    }
+                }
         }
         .frame(height: height)
     }
@@ -41,6 +52,6 @@ public struct DGImageCropper: View {
     
     let url = Bundle.module.path(forResource: "sample_image", ofType: "png")!
     
-    return DGImageCropper(uiImage: .init(contentsOfFile: url)!)
+    return DGImageCropper(uiImage: .init(contentsOfFile: url)!, edgeColor: Color(red: 0.03, green: 0.93, blue: 0.13))
         .preferredColorScheme(.dark)
 }
