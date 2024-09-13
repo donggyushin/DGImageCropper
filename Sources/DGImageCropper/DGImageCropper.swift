@@ -7,6 +7,8 @@ public struct DGImageCropper: View {
     
     let uiImage: UIImage
     
+    @State private var height: CGFloat = 1000
+    
     public init(uiImage: UIImage) {
         self.uiImage = uiImage
     }
@@ -16,7 +18,12 @@ public struct DGImageCropper: View {
             Image(uiImage: uiImage)
                 .resizable()
                 .scaledToFit()
+                .background(ViewGeometry())
+                .onPreferenceChange(ViewSizeKey.self) { height in
+                    self.height = height.height
+                }
         }
+        .frame(height: height)
     }
 }
 
