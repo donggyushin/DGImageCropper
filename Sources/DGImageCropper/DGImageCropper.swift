@@ -34,6 +34,8 @@ public struct DGImageCropper: View {
                         path.addRect(model.rect)
                     }
                     .stroke(.white, lineWidth: 1)
+                    .contentShape(Rectangle())
+                    .gesture(gridDragGesture())
                 }
                 .overlay {
                     Grid()
@@ -42,8 +44,8 @@ public struct DGImageCropper: View {
                             height: model.rect.height
                         )
                         .position(
-                            x: model.rect.midX,
-                            y: model.rect.midY
+                            x: model.rect.midX - 3,
+                            y: model.rect.midY - 3
                         )
                         .padding(3)
                         .opacity(isShowingGrid ? 1 : 0)
@@ -60,32 +62,32 @@ public struct DGImageCropper: View {
         ZStack {
             Edge(color: edgeColor)
                 .position(
-                    x: model.topLeadingPoint.x + 10,
-                    y: model.topLeadingPoint.y + 10
+                    x: model.topLeadingPoint.x + 10.5,
+                    y: model.topLeadingPoint.y + 10.5
                 )
                 .gesture(dragGesture(edge: .topLeadingPoint))
             
             Edge(color: edgeColor)
                 .rotationEffect(.degrees(90))
                 .position(
-                    x: model.topTrailingPoint.x - 10,
-                    y: model.topTrailingPoint.y + 10
+                    x: model.topTrailingPoint.x - 10.5,
+                    y: model.topTrailingPoint.y + 10.5
                 )
                 .gesture(dragGesture(edge: .topTrailingPoint))
             
             Edge(color: edgeColor)
                 .rotationEffect(.degrees(270))
                 .position(
-                    x: model.bottomLeadingPoint.x + 10,
-                    y: model.bottomLeadingPoint.y - 10
+                    x: model.bottomLeadingPoint.x + 10.5,
+                    y: model.bottomLeadingPoint.y - 10.5
                 )
                 .gesture(dragGesture(edge: .bottomLeadingPoint))
             
             Edge(color: edgeColor)
                 .rotationEffect(.degrees(180))
                 .position(
-                    x: model.bottomTrailingPoint.x - 10,
-                    y: model.bottomTrailingPoint.y - 10
+                    x: model.bottomTrailingPoint.x - 10.5,
+                    y: model.bottomTrailingPoint.y - 10.5
                 )
                 .gesture(dragGesture(edge: .bottomTrailingPoint))
         }
@@ -98,6 +100,22 @@ public struct DGImageCropper: View {
                     isShowingGrid = true
                 }
                 model.dragEdge(size: value.translation, edge: edge)
+            }
+            .onEnded { _ in
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    isShowingGrid = false
+                }
+                model.updatePreviousRef()
+            }
+    }
+    
+    func gridDragGesture() -> some Gesture {
+        DragGesture()
+            .onChanged { value in
+                if isShowingGrid == false {
+                    isShowingGrid = true
+                }
+                model.move(size: value.translation)
             }
             .onEnded { _ in
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {

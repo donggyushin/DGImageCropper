@@ -49,6 +49,25 @@ public final class ImageCropperModel: ObservableObject {
         originRect = GenerateRectUseCase(point1: topLeadingPoint, point2: bottomTrailingPoint).execute()
     }
     
+    func move(size: CGSize) {
+        if CheckMoveableRectUseCase(originRect: originRect, rect: GenerateRectUseCase(point1: previousTopLeadingPoint, point2: previousBottomTrailingPoint).execute(), move: size).execute() {
+            let x = size.width
+            let y = size.height
+            
+            let topLeadingPoint = CGPoint(x: previousTopLeadingPoint.x + x, y: previousTopLeadingPoint.y + y)
+            let topTrailingPoint = CGPoint(x: previousTopTrailingPoint.x + x, y: previousTopTrailingPoint.y + y)
+            let bottomLeadingPoint = CGPoint(x: previousBottomLeadingPoint.x + x, y: previousBottomLeadingPoint.y + y)
+            let bottomTrailingPoint = CGPoint(x: previousBottomTrailingPoint.x + x, y: previousBottomTrailingPoint.y + y)
+            
+            self.topLeadingPoint = topLeadingPoint
+            self.topTrailingPoint = topTrailingPoint
+            self.bottomLeadingPoint = bottomLeadingPoint
+            self.bottomTrailingPoint = bottomTrailingPoint
+        }
+        
+        
+    }
+    
     func dragEdge(size: CGSize, edge: EdgePosition) {
         switch edge {
         case .topLeadingPoint:

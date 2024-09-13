@@ -20,11 +20,13 @@ final class CheckMoveableRectUseCase {
     
     func execute() -> Bool {
         var rect = rect
-        rect.origin = .init(x: rect.origin.x + move.width, y: rect.origin.y + move.height)
+        rect = .init(
+            x: rect.minX + move.width,
+            y: rect.minY + move.height,
+            width: rect.width,
+            height: rect.height
+        )
         
-        return originRect.contains(.init(x: rect.minX, y: rect.minY)) &&
-        originRect.contains(.init(x: rect.maxX, y: rect.minY)) &&
-        originRect.contains(.init(x: rect.minX, y: rect.maxY)) &&
-        originRect.contains(.init(x: rect.maxX, y: rect.maxY))
+        return originRect.contains(rect)
     }
 }
