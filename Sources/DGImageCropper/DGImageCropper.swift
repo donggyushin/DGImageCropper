@@ -48,6 +48,7 @@ public struct DGImageCropper: View {
                     x: model.topLeadingPoint.x + 10,
                     y: model.topLeadingPoint.y + 10
                 )
+                .gesture(dragGesture(edge: .topLeadingPoint))
             
             Edge(color: edgeColor)
                 .rotationEffect(.degrees(90))
@@ -70,6 +71,16 @@ public struct DGImageCropper: View {
                     y: model.bottomTrailingPoint.y - 10
                 )
         }
+    }
+    
+    func dragGesture(edge: ImageCropperModel.EdgePosition) -> some Gesture {
+        DragGesture()
+            .onChanged { value in
+                model.dragEdge(size: value.translation, edge: edge)
+            }
+            .onEnded { _ in
+                model.updatePreviousRef()
+            }
     }
 }
 

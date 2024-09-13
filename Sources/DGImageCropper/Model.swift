@@ -10,12 +10,25 @@ import Foundation
 
 @MainActor
 public final class ImageCropperModel: ObservableObject {
+    
+    enum EdgePosition {
+        case topLeadingPoint
+        case topTrailingPoint
+        case bottomLeadingPoint
+        case bottomTrailingPoint
+    }
+    
     @Published var topLeadingPoint: CGPoint = .zero
     @Published var topTrailingPoint: CGPoint = .zero
     @Published var bottomLeadingPoint: CGPoint = .zero
     @Published var bottomTrailingPoint: CGPoint = .zero
     
     @Published var rect: CGRect = .zero
+    
+    private var previousTopLeadingPoint: CGPoint = .zero
+    private var previousTopTrailingPoint: CGPoint = .zero
+    private var previousBottomLeadingPoint: CGPoint = .zero
+    private var previousBottomTrailingPoint: CGPoint = .zero
     
     init() {
         bind()
@@ -26,6 +39,25 @@ public final class ImageCropperModel: ObservableObject {
         topTrailingPoint = .init(x: size.width, y: 0)
         bottomLeadingPoint = .init(x: 0, y: size.height)
         bottomTrailingPoint = .init(x: size.width, y: size.height)
+        
+        updatePreviousRef()
+    }
+    
+    func dragEdge(size: CGSize, edge: EdgePosition) {
+        let value = (size.width + size.height) / 2
+        
+        if edge == .topLeadingPoint {
+            topLeadingPoint = CGPoint(x: previousTopLeadingPoint.x + value, y: previousTopLeadingPoint.y + value)
+            topTrailingPoint = CGPoint(x: previousTopTrailingPoint.x, y: previousTopTrailingPoint.y + value)
+            bottomLeadingPoint = CGPoint(x: previousBottomLeadingPoint.x + value, y: previousBottomLeadingPoint.y)
+        }
+    }
+    
+    func updatePreviousRef() {
+        previousTopLeadingPoint = topLeadingPoint
+        previousTopTrailingPoint = topTrailingPoint
+        previousBottomLeadingPoint = bottomLeadingPoint
+        previousBottomTrailingPoint = bottomTrailingPoint
     }
     
     private func bind() {
