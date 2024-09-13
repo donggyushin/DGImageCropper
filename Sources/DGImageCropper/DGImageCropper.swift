@@ -35,23 +35,41 @@ public struct DGImageCropper: View {
                     .stroke(.white, lineWidth: 1)
                 }
                 .overlay {
-                    ZStack {
-                        Edge(color: edgeColor)
-                            .position(
-                                x: model.topLeadingPoint.x + 10,
-                                y: model.topLeadingPoint.y + 10
-                            )
-                        
-                        Edge(color: edgeColor)
-                            .rotationEffect(.degrees(90))
-                            .position(
-                                x: model.topTrailingPoint.x - 10,
-                                y: model.topTrailingPoint.y + 10
-                            )
-                    }
+                    edges
                 }
         }
         .frame(height: height)
+    }
+    
+    var edges: some View {
+        ZStack {
+            Edge(color: edgeColor)
+                .position(
+                    x: model.topLeadingPoint.x + 10,
+                    y: model.topLeadingPoint.y + 10
+                )
+            
+            Edge(color: edgeColor)
+                .rotationEffect(.degrees(90))
+                .position(
+                    x: model.topTrailingPoint.x - 10,
+                    y: model.topTrailingPoint.y + 10
+                )
+            
+            Edge(color: edgeColor)
+                .rotationEffect(.degrees(270))
+                .position(
+                    x: model.bottomLeadingPoint.x + 10,
+                    y: model.bottomLeadingPoint.y - 10
+                )
+            
+            Edge(color: edgeColor)
+                .rotationEffect(.degrees(180))
+                .position(
+                    x: model.bottomTrailingPoint.x - 10,
+                    y: model.bottomTrailingPoint.y - 10
+                )
+        }
     }
 }
 
