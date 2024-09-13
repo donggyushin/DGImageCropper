@@ -72,8 +72,6 @@ public final class ImageCropperModel: ObservableObject {
             self.bottomLeadingPoint = bottomLeadingPoint
             self.bottomTrailingPoint = bottomTrailingPoint
         }
-        
-        
     }
     
     func dragEdge(size: CGSize, edge: EdgePosition) {
