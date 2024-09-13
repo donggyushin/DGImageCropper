@@ -46,29 +46,23 @@ public final class ImageCropperModel: ObservableObject {
     }
     
     func dragEdge(size: CGSize, edge: EdgePosition) {
-        
-        if edge == .topLeadingPoint {
+        switch edge {
+        case .topLeadingPoint:
             let value = (size.width + size.height) / 2
             topLeadingPoint = CGPoint(x: previousTopLeadingPoint.x + value, y: previousTopLeadingPoint.y + value)
             topTrailingPoint = CGPoint(x: previousTopTrailingPoint.x, y: previousTopTrailingPoint.y + value)
             bottomLeadingPoint = CGPoint(x: previousBottomLeadingPoint.x + value, y: previousBottomLeadingPoint.y)
-        }
-        
-        if edge == .topTrailingPoint {
+        case .topTrailingPoint:
             let value = (size.width - size.height) / 2
             topTrailingPoint = CGPoint(x: previousTopTrailingPoint.x + value, y: previousTopTrailingPoint.y - value)
             topLeadingPoint = CGPoint(x: previousTopLeadingPoint.x, y: previousTopLeadingPoint.y - value)
             bottomTrailingPoint = CGPoint(x: previousBottomTrailingPoint.x + value, y: previousBottomTrailingPoint.y)
-        }
-        
-        if edge == .bottomLeadingPoint {
+        case .bottomLeadingPoint:
             let value = (size.width - size.height) / 2
             bottomLeadingPoint = CGPoint(x: previousBottomLeadingPoint.x + value, y: previousBottomLeadingPoint.y - value)
             topLeadingPoint = CGPoint(x: previousTopLeadingPoint.x + value, y: previousTopLeadingPoint.y)
             bottomTrailingPoint = CGPoint(x: previousBottomTrailingPoint.x, y: previousBottomTrailingPoint.y - value)
-        }
-        
-        if edge == .bottomTrailingPoint {
+        case .bottomTrailingPoint:
             let value = (size.width + size.height) / 2
             bottomTrailingPoint = CGPoint(x: previousBottomTrailingPoint.x + value, y: previousBottomTrailingPoint.y + value)
             bottomLeadingPoint = CGPoint(x: previousBottomLeadingPoint.x, y: previousBottomLeadingPoint.y + value)
