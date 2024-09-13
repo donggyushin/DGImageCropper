@@ -55,10 +55,16 @@ public final class ImageCropperModel: ObservableObject {
     public func changeRatio(ratio: CropRatio) {
         switch ratio {
         case .square:
-            topLeadingPoint = .init(x: originRect.minX, y: originRect.minY)
-            topTrailingPoint = .init(x: originRect.maxX, y: originRect.minY)
-            bottomLeadingPoint = .init(x: originRect.minX, y: originRect.maxY)
-            bottomTrailingPoint = .init(x: originRect.maxX, y: originRect.maxY)
+            
+            let length = min(originRect.width, originRect.height)
+            let x = (originRect.width - length) / 2
+            let y = (originRect.height - length) / 2
+            
+            topLeadingPoint = .init(x: x, y: y)
+            topTrailingPoint = .init(x: x + length, y: y)
+            bottomLeadingPoint = .init(x: x, y: y + length)
+            bottomTrailingPoint = .init(x: x + length, y: y + length)
+            
             updatePreviousRef()
         }
     }
