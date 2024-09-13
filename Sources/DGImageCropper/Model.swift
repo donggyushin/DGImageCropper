@@ -14,6 +14,7 @@ public final class ImageCropperModel: ObservableObject {
     
     public enum CropRatio {
         case square
+        case width3height4
     }
     
     enum EdgePosition {
@@ -53,9 +54,10 @@ public final class ImageCropperModel: ObservableObject {
     }
     
     public func changeRatio(ratio: CropRatio) {
+        self.ratio = ratio
+        
         switch ratio {
         case .square:
-            
             let length = min(originRect.width, originRect.height)
             let x = (originRect.width - length) / 2
             let y = (originRect.height - length) / 2
@@ -64,9 +66,19 @@ public final class ImageCropperModel: ObservableObject {
             topTrailingPoint = .init(x: x + length, y: y)
             bottomLeadingPoint = .init(x: x, y: y + length)
             bottomTrailingPoint = .init(x: x + length, y: y + length)
+        case .width3height4:
+            let h = originRect.height
+            let w = h / 4 * 3
+            let y = 0.0
+            let x = (originRect.width - w) / 2
             
-            updatePreviousRef()
+            topLeadingPoint = .init(x: x, y: y)
+            topTrailingPoint = .init(x: x + w, y: 0)
+            bottomLeadingPoint = .init(x: x, y: h)
+            bottomTrailingPoint = .init(x: x + w, y: h)
         }
+        
+        updatePreviousRef()
     }
     
     func configure(size: CGSize) {

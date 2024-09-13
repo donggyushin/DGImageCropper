@@ -125,8 +125,10 @@ public struct DGImageCropper: View {
 }
 
 #Preview {
+    let model: ImageCropperModel = .init(image: .init(contentsOfFile: Bundle.module.path(forResource: "sample_image", ofType: "png")!)!)
+    
     return DGImageCropper(
-        model: .init(image: .init(contentsOfFile: Bundle.module.path(forResource: "sample_image", ofType: "png")!)!),
+        model: model,
         edgeColor: .green
     )
     .preferredColorScheme(.dark)
