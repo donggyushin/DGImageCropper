@@ -126,17 +126,10 @@ public struct DGImageCropper: View {
 }
 
 #Preview {
-    let model: ImageCropperModel = .init(image: .init(contentsOfFile: Bundle.module.path(forResource: "sample_image", ofType: "png")!)!)
+    let model: ImageCropperModel = .init(image: .init(contentsOfFile: Bundle.module.path(forResource: "sample_image2", ofType: "png")!)!)
     
     return DGImageCropper(
         model: model,
         edgeColor: .green
     )
-    .overlay(alignment: .top) {
-        VStack {
-            Button("turn") {
-                model.rotate(degree: 90)
-            }
-        }
-    }
 }
