@@ -57,6 +57,7 @@ public final class ImageCropperModel: ObservableObject {
         if let rotated = image.rotated(by: degree) {
             self.degree = degree
             self.image = rotated
+            changeRatio(ratio: ratio)
         }
     }
     
