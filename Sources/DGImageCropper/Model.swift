@@ -12,6 +12,10 @@ import UIKit
 @MainActor
 public final class ImageCropperModel: ObservableObject {
     
+    public enum CropRatio {
+        case square
+    }
+    
     enum EdgePosition {
         case topLeadingPoint
         case topTrailingPoint
@@ -27,6 +31,8 @@ public final class ImageCropperModel: ObservableObject {
     @Published var bottomTrailingPoint: CGPoint = .zero
     
     @Published var rect: CGRect = .zero
+    
+    @Published var ratio: CropRatio = .square
     
     private var previousTopLeadingPoint: CGPoint = .zero
     private var previousTopTrailingPoint: CGPoint = .zero
@@ -46,15 +52,23 @@ public final class ImageCropperModel: ObservableObject {
         cropImage(image: image, imageSizeInScreen: originRect.size, rect: rect)
     }
     
+    public func changeRatio(ratio: CropRatio) {
+        switch ratio {
+        case .square:
+            topLeadingPoint = .init(x: originRect.minX, y: originRect.minY)
+            topTrailingPoint = .init(x: originRect.maxX, y: originRect.minY)
+            bottomLeadingPoint = .init(x: originRect.minX, y: originRect.maxY)
+            bottomTrailingPoint = .init(x: originRect.maxX, y: originRect.maxY)
+            updatePreviousRef()
+        }
+    }
+    
     func configure(size: CGSize) {
-        topLeadingPoint = .init(x: 0, y: 0)
-        topTrailingPoint = .init(x: size.width, y: 0)
-        bottomLeadingPoint = .init(x: 0, y: size.height)
-        bottomTrailingPoint = .init(x: size.width, y: size.height)
-        
-        updatePreviousRef()
-        
-        originRect = GenerateRectUseCase(point1: topLeadingPoint, point2: bottomTrailingPoint).execute()
+        originRect = GenerateRectUseCase(
+            point1: .init(x: 0, y: 0),
+            point2: .init(x: size.width, y: size.height)
+        ).execute()
+        changeRatio(ratio: ratio)
     }
     
     func move(size: CGSize) {
