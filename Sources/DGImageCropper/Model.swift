@@ -15,6 +15,7 @@ public final class ImageCropperModel: ObservableObject {
     public enum CropRatio {
         case square
         case width3height4
+        case width4height3
     }
     
     enum EdgePosition {
@@ -76,6 +77,16 @@ public final class ImageCropperModel: ObservableObject {
             topTrailingPoint = .init(x: x + w, y: 0)
             bottomLeadingPoint = .init(x: x, y: h)
             bottomTrailingPoint = .init(x: x + w, y: h)
+        case .width4height3:
+            let x = 0.0
+            let w = originRect.width
+            let h = w / 4 * 3
+            let y = (originRect.height - h) / 2
+            
+            topLeadingPoint = .init(x: x, y: y)
+            topTrailingPoint = .init(x: x + w, y: y)
+            bottomLeadingPoint = .init(x: x, y: y + h)
+            bottomTrailingPoint = .init(x: x + w, y: h + y)
         }
         
         updatePreviousRef()
