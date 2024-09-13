@@ -13,10 +13,10 @@ public struct DGImageCropper: View {
     @State private var height: CGFloat = 1000
     @State private var isShowingGrid: Bool = false
     
-    public init(uiImage: UIImage, edgeColor: Color = .white) {
+    public init(uiImage: UIImage, edgeColor: Color = .white, model: ImageCropperModel) {
         self.uiImage = uiImage
         self.edgeColor = edgeColor
-        _model = .init(wrappedValue: .init())
+        _model = .init(wrappedValue: model)
     }
     
     public var body: some View {
@@ -130,6 +130,10 @@ public struct DGImageCropper: View {
     
     let url = Bundle.module.path(forResource: "sample_image", ofType: "png")!
     
-    return DGImageCropper(uiImage: .init(contentsOfFile: url)!, edgeColor: Color(red: 0.03, green: 0.93, blue: 0.13))
+    return DGImageCropper(
+        uiImage: .init(contentsOfFile: url)!,
+        edgeColor: Color(red: 0.03, green: 0.93, blue: 0.13),
+        model: .init()
+    )
         .preferredColorScheme(.dark)
 }
