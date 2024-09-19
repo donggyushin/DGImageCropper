@@ -19,63 +19,67 @@ public struct DGImageCropper: View {
     
     public var body: some View {
         GeometryReader { geo in
-            Image(uiImage: model.image)
-                .resizable()
-                .scaledToFit()
-                .background(ViewGeometry())
-                .onPreferenceChange(ViewSizeKey.self) { size in
-                    model.configure(size: size)
-                    height = size.height
-                }
-                .overlay {
-                    ZStack {
-                        Rectangle()
-                            .fill(.black.opacity(0.5))
-                        
+            HStack {
+                Spacer(minLength: 0)
+                Image(uiImage: model.image)
+                    .resizable()
+                    .scaledToFit()
+                    .background(ViewGeometry())
+                    .onPreferenceChange(ViewSizeKey.self) { size in
+                        model.configure(size: size)
+                        height = size.height
+                    }
+                    .overlay {
+                        ZStack {
+                            Rectangle()
+                                .fill(.black.opacity(0.5))
+                            
+                            Path { path in
+                                let rect = CGRect(
+                                    x: model.rect.minX,
+                                    y: model.rect.minY,
+                                    width: model.rect.width,
+                                    height: model.rect.height
+                                )
+                                path.addRect(rect)
+                            }
+                            .blendMode(.destinationOut)
+                        }
+                        .compositingGroup()
+                    }
+                    .overlay {
                         Path { path in
                             let rect = CGRect(
-                                x: model.rect.minX,
-                                y: model.rect.minY,
-                                width: model.rect.width,
-                                height: model.rect.height
+                                x: model.rect.minX + 3,
+                                y: model.rect.minY + 3,
+                                width: model.rect.width - 6,
+                                height: model.rect.height - 6
                             )
                             path.addRect(rect)
                         }
-                        .blendMode(.destinationOut)
+                        .stroke(.white, lineWidth: 1)
+                        .contentShape(Rectangle())
+                        .gesture(gridDragGesture())
                     }
-                    .compositingGroup()
-                }
-                .overlay {
-                    Path { path in
-                        let rect = CGRect(
-                            x: model.rect.minX + 3,
-                            y: model.rect.minY + 3,
-                            width: model.rect.width - 6,
-                            height: model.rect.height - 6
-                        )
-                        path.addRect(rect)
+                    .overlay {
+                        Grid()
+                            .frame(
+                                width: max(model.rect.width - 6, 0),
+                                height: max(model.rect.height - 6, 0)
+                            )
+                            .position(
+                                x: model.rect.midX - 3,
+                                y: model.rect.midY - 3
+                            )
+                            .padding(3)
+                            .opacity(isShowingGrid ? 1 : 0)
+                            .animation(.default, value: isShowingGrid)
                     }
-                    .stroke(.white, lineWidth: 1)
-                    .contentShape(Rectangle())
-                    .gesture(gridDragGesture())
-                }
-                .overlay {
-                    Grid()
-                        .frame(
-                            width: max(model.rect.width - 6, 0),
-                            height: max(model.rect.height - 6, 0)
-                        )
-                        .position(
-                            x: model.rect.midX - 3,
-                            y: model.rect.midY - 3
-                        )
-                        .padding(3)
-                        .opacity(isShowingGrid ? 1 : 0)
-                        .animation(.default, value: isShowingGrid)
-                }
-                .overlay {
-                    edges
-                }
+                    .overlay {
+                        edges
+                    }
+                Spacer(minLength: 0)
+            }
         }
         .frame(height: height)
     }
