@@ -19,7 +19,7 @@ Once you have your Swift package set up, adding `DGImageCropper` as a dependency
 
 ```
 dependencies: [
-   .package(url: "https://github.com/donggyushin/DGImageCropper", .upToNextMajor(from: "1.0.0"))
+   .package(url: "https://github.com/donggyushin/DGImageCropper", .upToNextMajor(from: "1.0.1"))
 ]
 ```
 
