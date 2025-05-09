@@ -71,7 +71,7 @@ public final class ImageCropperModel: ObservableObject {
         case .width3height4:
             let w = originRect.width
             let h = w / 3 * 4
-            let y = h / 3
+            let y = 0.0
             
             topLeadingPoint = .init(x: 0, y: y)
             topTrailingPoint = .init(x: 0 + w, y: y)
