@@ -146,6 +146,8 @@ public struct DGImageCropper: View {
 #Preview {
     let model: ImageCropperModel = .init(image: .init(contentsOfFile: Bundle.module.path(forResource: "sample_background", ofType: "jpeg")!)!)
     
+    model.changeRatio(ratio: .width3height4)
+    
     return DGImageCropper(
         model: model,
         edgeColor: .green
