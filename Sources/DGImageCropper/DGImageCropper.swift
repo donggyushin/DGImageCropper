@@ -144,7 +144,7 @@ public struct DGImageCropper: View {
 }
 
 #Preview {
-    let model: ImageCropperModel = .init(image: .init(contentsOfFile: Bundle.module.path(forResource: "sample_image", ofType: "png")!)!)
+    let model: ImageCropperModel = .init(image: .init(contentsOfFile: Bundle.module.path(forResource: "sample_background", ofType: "jpeg")!)!)
     
     return DGImageCropper(
         model: model,
