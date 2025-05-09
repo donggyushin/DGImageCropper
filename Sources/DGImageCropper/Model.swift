@@ -9,7 +9,6 @@ import Combine
 import Foundation
 import UIKit
 
-@MainActor
 public final class ImageCropperModel: ObservableObject {
     
     public enum CropRatio {
@@ -55,6 +54,7 @@ public final class ImageCropperModel: ObservableObject {
         cropImage(image: image, imageSizeInScreen: originRect.size, rect: rect)
     }
     
+    @MainActor
     public func changeRatio(ratio: CropRatio) {
         self.ratio = ratio
         
@@ -93,6 +93,7 @@ public final class ImageCropperModel: ObservableObject {
         updatePreviousRef()
     }
     
+    @MainActor
     func configure(size: CGSize) {
         originRect = GenerateRectUseCase(
             point1: .init(x: 0, y: 0),
@@ -101,6 +102,7 @@ public final class ImageCropperModel: ObservableObject {
         changeRatio(ratio: ratio)
     }
     
+    @MainActor
     func move(size: CGSize) {
         let x = size.width
         let y = size.height
@@ -161,6 +163,7 @@ public final class ImageCropperModel: ObservableObject {
         }
     }
     
+    @MainActor
     func dragEdge(size: CGSize, edge: EdgePosition) {
         switch edge {
         case .topLeadingPoint:
@@ -211,6 +214,7 @@ public final class ImageCropperModel: ObservableObject {
         }
     }
     
+    @MainActor
     func updatePreviousRef() {
         previousTopLeadingPoint = topLeadingPoint
         previousTopTrailingPoint = topTrailingPoint
@@ -224,6 +228,7 @@ public final class ImageCropperModel: ObservableObject {
             .combineLatest($bottomTrailingPoint)
             .map({ GenerateRectUseCase(point1: $0.0, point2: $0.1) })
             .map({ $0.execute() })
+            .receive(on: DispatchQueue.main)
             .assign(to: &$rect)
     }
 }

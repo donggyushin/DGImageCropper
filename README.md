@@ -19,7 +19,7 @@ Once you have your Swift package set up, adding `DGImageCropper` as a dependency
 
 ```
 dependencies: [
-   .package(url: "https://github.com/donggyushin/DGImageCropper", .upToNextMajor(from: "1.0.1"))
+   .package(url: "https://github.com/donggyushin/DGImageCropper", .upToNextMajor(from: "1.0.2"))
 ]
 ```
 
@@ -47,7 +47,6 @@ struct ContentView: View {
     let model: ImageCropperModel
     
     @State private var image: UIImage?
-    @State private var degree: Double = 0
     
     init() {
         let model: ImageCropperModel = .init(image: .sample)
