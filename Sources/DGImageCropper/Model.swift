@@ -100,6 +100,12 @@ public final class ImageCropperModel: ObservableObject {
             point2: .init(x: size.width, y: size.height)
         ).execute()
         changeRatio(ratio: ratio)
+        
+        previousTopLeadingPoint = .init(x: originRect.minX, y: originRect.minY)
+        previousTopTrailingPoint = .init(x: originRect.maxX, y: originRect.minY)
+        previousBottomLeadingPoint = .init(x: originRect.minX, y: originRect.maxY)
+        previousBottomTrailingPoint = .init(x: originRect.maxX, y: originRect.maxY)
+        previousRect = originRect
     }
     
     @MainActor
