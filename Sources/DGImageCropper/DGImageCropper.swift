@@ -146,7 +146,7 @@ public struct DGImageCropper: View {
 #if DEBUG
 private struct DGImageCropperPreview: View {
     @State private var croppedImage: UIImage?
-    let model: ImageCropperModel = .init(image: .init(contentsOfFile: Bundle.module.path(forResource: "error_case_image", ofType: "jpg")!)!)
+    let model: ImageCropperModel = .init(image: .init(contentsOfFile: Bundle.module.path(forResource: "IMG_8048", ofType: "PNG")!)!)
     
     var body: some View {
         VStack {
