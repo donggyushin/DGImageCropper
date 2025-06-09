@@ -143,13 +143,34 @@ public struct DGImageCropper: View {
     }
 }
 
-#Preview {
-    let model: ImageCropperModel = .init(image: .init(contentsOfFile: Bundle.module.path(forResource: "sample_background", ofType: "jpeg")!)!)
+#if DEBUG
+private struct DGImageCropperPreview: View {
+    @State private var croppedImage: UIImage?
+    let model: ImageCropperModel = .init(image: .init(contentsOfFile: Bundle.module.path(forResource: "error_case_image", ofType: "jpg")!)!)
     
-    model.changeRatio(ratio: .width4height3)
-    
-    return DGImageCropper(
-        model: model,
-        edgeColor: .green
-    )
+    var body: some View {
+        VStack {
+            if let croppedImage {
+                Image(uiImage: croppedImage)
+                    .resizable()
+                    .scaledToFit()
+            } else {
+                DGImageCropper(model: model)
+            }
+            
+            Button("Crop") {
+                if croppedImage == nil {
+                    croppedImage = model.crop()
+                } else {
+                    croppedImage = nil
+                }
+            }
+        }
+    }
 }
+
+#Preview {
+    DGImageCropperPreview()
+        .preferredColorScheme(.dark)
+}
+#endif

@@ -10,7 +10,13 @@ import CoreGraphics
 import UIKit
 
 func cropImage(image: UIImage, imageSizeInScreen: CGSize, rect: CGRect) -> UIImage? {
-    let ratio = image.size.width / imageSizeInScreen.width
+    let ratio: CGFloat
+    
+    if image.size.width > imageSizeInScreen.width {
+        ratio = image.size.width / imageSizeInScreen.width
+    } else {
+        ratio = imageSizeInScreen.width / image.size.width
+    }
     
     let rect: CGRect = .init(
         x: rect.minX * ratio,
