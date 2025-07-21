@@ -69,14 +69,24 @@ public final class ImageCropperModel: ObservableObject {
             bottomLeadingPoint = .init(x: x, y: y + length)
             bottomTrailingPoint = .init(x: x + length, y: y + length)
         case .width3height4:
-            let w = originRect.width
-            let h = w / 3 * 4
-            let y = 0.0
+            var h = originRect.height
+            var w = h / 4 * 3
+            var y = 0.0
+            var x = originRect.width / 2 - w / 2
             
-            topLeadingPoint = .init(x: 0, y: y)
-            topTrailingPoint = .init(x: 0 + w, y: y)
-            bottomLeadingPoint = .init(x: 0, y: y + h)
-            bottomTrailingPoint = .init(x: 0 + w, y: y + h)
+            /// edgecase
+            /// if w is longer than screen width
+            if w > originRect.width {
+                w = originRect.width
+                h = w / 3 * 4
+                y = originRect.height / 2 - h / 2
+                x = 0
+            }
+            
+            topLeadingPoint = .init(x: x, y: y)
+            topTrailingPoint = .init(x: x + w, y: y)
+            bottomLeadingPoint = .init(x: x, y: y + h)
+            bottomTrailingPoint = .init(x: x + w, y: y + h)
         case .width4height3:
             let x = 0.0
             let w = originRect.width

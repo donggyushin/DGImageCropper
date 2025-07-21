@@ -146,7 +146,7 @@ public struct DGImageCropper: View {
 #if DEBUG
 private struct DGImageCropperPreview: View {
     @State private var croppedImage: UIImage?
-    let model: ImageCropperModel = .init(image: .init(contentsOfFile: Bundle.module.path(forResource: "vertical_image_for_test", ofType: "jpg")!)!)
+    let model: ImageCropperModel = .init(image: .init(contentsOfFile: Bundle.module.path(forResource: "sample_background", ofType: "jpeg")!)!)
     
     var body: some View {
         VStack {
@@ -165,6 +165,9 @@ private struct DGImageCropperPreview: View {
                     croppedImage = nil
                 }
             }
+        }
+        .onAppear {
+            model.changeRatio(ratio: .width3height4)
         }
     }
 }
