@@ -46,7 +46,7 @@ public final class ImageCropperModel: ObservableObject {
     private let minDiff: CGFloat = 100
     
     public init(image: UIImage) {
-        self.image = image
+        self.image = image.normalizedImage()
         bind()
     }
     
